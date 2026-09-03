@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backend Engineer — Go & Distributed Systems</title>
+  <meta name="description"
+    content="Backend Engineer specializing in Go, PostgreSQL, REST APIs, Docker, and distributed systems with payment gateway integrations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero"><span class="mono">&lt;</span>dev<span class="mono">/&gt;</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="hire-wrap">
+        <button class="nav-cta" id="hire-btn" onclick="toggleHirePopup(event)">✉ Hire Me</button>
+        <div class="hire-popup" id="hire-popup">
+          <p class="hire-popup-label">Get in touch</p>
+          <div class="hire-email-row">
+            <span class="hire-email" id="hire-email-text">pujanbose@gmail.com</span>
+            <button class="hire-copy-btn" id="hire-copy-btn" onclick="copyEmail()">Copy</button>
+          </div>
+          <p class="hire-popup-note">Or email directly from your client</p>
+          <a href="mailto:pujanbose@gmail.com" class="hire-mailto-link">Open mail app ↗</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="grid-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="badge-dot"></span>Available for opportunities</div>
+      <h1 class="hero-name">Pujan Bose</h1>
+      <h2 class="hero-title">
+        <span class="static-text">Backend Engineer — </span>
+        <span id="typed-text" class="typed"></span><span class="cursor">|</span>
+      </h2>
+      <p class="hero-sub">
+        I build high-throughput distributed systems, payment infrastructure,
+        and production-grade APIs in <strong>Go</strong> and <strong>TypeScript</strong>.
+        Currently focused on backend architecture, concurrency, and DevOps.
+      </p>
+      <div class="hero-chips">
+        <span class="chip chip-primary">Go</span>
+        <span class="chip chip-primary">PostgreSQL</span>
+        <span class="chip chip-primary">Docker</span>
+        <span class="chip chip-secondary">REST APIs</span>
+        <span class="chip chip-secondary">RabbitMQ</span>
+        <span class="chip chip-secondary">Redis</span>
+        <span class="chip chip-secondary">Payment Systems</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-code">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="code-filename">main.go</span>
+        </div>
+        <pre class="code-body"><code><span class="kw">package</span> main
+
+<span class="kw">import</span> (
+  <span class="str">"context"</span>
+  <span class="str">"net/http"</span>
+  <span class="str">"log/slog"</span>
+)
+
+<span class="kw">func</span> <span class="fn">main</span>() {
+  db  := <span class="fn">mustConnectPostgres</span>(ctx)
+  mq  := <span class="fn">mustConnectRabbitMQ</span>(ctx)
+  rdb := <span class="fn">mustConnectRedis</span>(ctx)
+
+  srv := <span class="fn">NewServer</span>(db, mq, rdb)
+  slog.<span class="fn">Info</span>(<span class="str">"listening"</span>, <span class="str">"port"</span>, <span class="num">8080</span>)
+  http.<span class="fn">ListenAndServe</span>(<span class="str">":8080"</span>, srv)
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label">About</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 class="section-title">Obsessed with systems that <em>scale</em></h2>
+          <p>I'm a backend-focused engineer who thrives at the intersection of performance, reliability, and
+            correctness. My daily toolkit is <strong>Go + PostgreSQL + Docker</strong>, and I've shipped production
+            systems handling payment flows, real-time messaging, and background job pipelines.</p>
+          <p>Beyond the core stack I reach for <strong>Node.js/NestJS</strong> for rapid API development,
+            <strong>Redis</strong> and <strong>RabbitMQ</strong> for distributed patterns, and <strong>AWS/S3</strong>
+            for infrastructure. I also have exposure to ML/AI pipelines — RAG systems, computer vision, vector
+            databases.
+          </p>
+          <p>I care deeply about <strong>database design</strong>, <strong>concurrency safety</strong>,
+            <strong>production debugging</strong>, and writing services that ops teams don't have nightmares about.
+          </p>
+          <div class="about-stats">
+            <div class="stat"><span class="stat-num">5+</span><span class="stat-label">Languages</span></div>
+            <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Technologies</span></div>
+            <div class="stat"><span class="stat-num">3</span><span class="stat-label">Payment Gateways</span></div>
+          </div>
+        </div>
+        <div class="about-stack">
+          <div class="stack-card">
+            <div class="stack-icon">⚡</div>
+            <div class="stack-title">Core Strength</div>
+            <div class="stack-desc">Go · PostgreSQL · REST APIs · Docker · Linux · Distributed Systems</div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-icon">💳</div>
+            <div class="stack-title">Payment Systems</div>
+            <div class="stack-desc">BrainPay · iVeri · 3DS · Gateway Integrations · Webhook Processing</div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-icon">📡</div>
+            <div class="stack-title">Messaging & Real-time</div>
+            <div class="stack-desc">RabbitMQ · Redis Pub/Sub · WebSockets · Socket.IO</div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-icon">🤖</div>
+            <div class="stack-title">AI/ML Exposure</div>
+            <div class="stack-desc">RAG Pipelines · Vector DBs · Computer Vision · Generative AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">Skills</div>
+      <h2 class="section-title center">Full Technology Stack</h2>
+      <p class="section-sub center">Everything I work with — weighted by depth and production experience</p>
+      <div class="skill-categories">
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">🔤</span>Languages</div>
+          <div class="skill-pills">
+            <span class="skill-pill expert">Go</span>
+            <span class="skill-pill expert">TypeScript</span>
+            <span class="skill-pill proficient">JavaScript</span>
+            <span class="skill-pill proficient">Python</span>
+            <span class="skill-pill proficient">SQL</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">⚙️</span>Backend</div>
+          <div class="skill-pills">
+            <span class="skill-pill expert">Go (stdlib + chi/gin)</span>
+            <span class="skill-pill proficient">Node.js</span>
+            <span class="skill-pill proficient">Express.js</span>
+            <span class="skill-pill proficient">NestJS</span>
+            <span class="skill-pill expert">REST APIs</span>
+            <span class="skill-pill proficient">sqlx</span>
+            <span class="skill-pill familiar">Sequelize</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">🗄️</span>Databases</div>
+          <div class="skill-pills">
+            <span class="skill-pill expert">PostgreSQL</span>
+            <span class="skill-pill proficient">MySQL</span>
+            <span class="skill-pill proficient">Redis</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">☁️</span>Cloud & DevOps</div>
+          <div class="skill-pills">
+            <span class="skill-pill proficient">Docker</span>
+            <span class="skill-pill proficient">Docker Compose</span>
+            <span class="skill-pill proficient">Linux</span>
+            <span class="skill-pill proficient">AWS</span>
+            <span class="skill-pill proficient">S3</span>
+            <span class="skill-pill expert">Git</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">📨</span>Messaging</div>
+          <div class="skill-pills">
+            <span class="skill-pill proficient">RabbitMQ</span>
+            <span class="skill-pill proficient">Redis Pub/Sub</span>
+            <span class="skill-pill proficient">WebSockets</span>
+            <span class="skill-pill proficient">Socket.IO</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">💳</span>Payments</div>
+          <div class="skill-pills">
+            <span class="skill-pill expert">BrainPay</span>
+            <span class="skill-pill expert">iVeri</span>
+            <span class="skill-pill expert">3DS</span>
+            <span class="skill-pill proficient">Gateway Integrations</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">🛠️</span>Tools</div>
+          <div class="skill-pills">
+            <span class="skill-pill proficient">Goose (migrations)</span>
+            <span class="skill-pill proficient">Puppeteer</span>
+            <span class="skill-pill proficient">Chromedp</span>
+            <span class="skill-pill proficient">Swagger</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">🧠</span>AI / ML</div>
+          <div class="skill-pills">
+            <span class="skill-pill familiar">Deep Learning</span>
+            <span class="skill-pill familiar">Computer Vision</span>
+            <span class="skill-pill familiar">RAG Pipelines</span>
+            <span class="skill-pill familiar">Vector Databases</span>
+            <span class="skill-pill familiar">Generative AI</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="cat-header"><span class="cat-icon">🏗️</span>Architecture</div>
+          <div class="skill-pills">
+            <span class="skill-pill expert">System Design</span>
+            <span class="skill-pill expert">Database Design</span>
+            <span class="skill-pill expert">API Architecture</span>
+            <span class="skill-pill proficient">Concurrency</span>
+            <span class="skill-pill proficient">Background Jobs</span>
+            <span class="skill-pill proficient">Performance Optimization</span>
+            <span class="skill-pill proficient">Security & Prod Debugging</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><span class="dot-expert"></span>Expert</span>
+        <span class="legend-item"><span class="dot-proficient"></span>Proficient</span>
+        <span class="legend-item"><span class="dot-familiar"></span>Familiar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">Projects</div>
+      <h2 class="section-title center">What I've Built</h2>
+      <p class="section-sub center">Real-world systems across backend, payments, and distributed architecture</p>
+      <div class="projects-grid">
+
+        <article class="project-card featured">
+          <div class="project-top-row">
+            <div class="project-badge">⭐ Featured</div>
+            <div class="project-links">
+              <a href="#" class="icon-link" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <span class="project-icon">💳</span>
+          <h3 class="project-title">Payment Processing Engine</h3>
+          <p class="project-desc">A production-grade payment orchestration service built in Go. Handles 3DS
+            authentication flows, webhook idempotency, retry logic with exponential backoff, and reconciliation jobs via
+            RabbitMQ workers.</p>
+          <div class="project-stack">
+            <span>Go</span><span>PostgreSQL</span><span>RabbitMQ</span><span>Redis</span><span>Docker</span><span>3DS /
+              iVeri</span>
+          </div>
+          <div class="project-features">
+            <div class="feature">✓ Idempotent webhook processing</div>
+            <div class="feature">✓ Async reconciliation workers</div>
+            <div class="feature">✓ 3DS v2 authentication</div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-header">
+            <span class="project-icon">⚡</span>
+            <div class="project-links">
+              <a href="#" class="icon-link" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <h3 class="project-title">Distributed Task Queue</h3>
+          <p class="project-desc">A horizontally scalable background job system using Go workers, RabbitMQ for task
+            distribution, and PostgreSQL for persistence and dead-letter handling. Supports priority queues and
+            scheduled jobs.</p>
+          <div class="project-stack">
+            <span>Go</span><span>RabbitMQ</span><span>PostgreSQL</span><span>Docker Compose</span>
+          </div>
+          <div class="project-features">
+            <div class="feature">✓ Priority queue support</div>
+            <div class="feature">✓ Dead-letter & retry</div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-header">
+            <span class="project-icon">🔌</span>
+            <div class="project-links">
+              <a href="#" class="icon-link" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <h3 class="project-title">Real-time Notification Service</h3>
+          <p class="project-desc">WebSocket-based notification hub built on NestJS + Socket.IO with Redis adapter for
+            horizontal scaling across multiple instances. Supports room-based broadcasting and event filtering.</p>
+          <div class="project-stack">
+            <span>NestJS</span><span>Socket.IO</span><span>Redis</span><span>PostgreSQL</span><span>Docker</span>
+          </div>
+          <div class="project-features">
+            <div class="feature">✓ Multi-instance via Redis adapter</div>
+            <div class="feature">✓ Room-based broadcasts</div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-header">
+            <span class="project-icon">🤖</span>
+            <div class="project-links">
+              <a href="#" class="icon-link" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <h3 class="project-title">RAG Document Q&A API</h3>
+          <p class="project-desc">A Python-based Retrieval-Augmented Generation service that ingests documents, chunks
+            and embeds them into a vector database, and answers natural-language questions using an LLM with retrieved
+            context.</p>
+          <div class="project-stack">
+            <span>Python</span><span>FastAPI</span><span>Vector DB</span><span>LLM</span><span>Docker</span>
+          </div>
+          <div class="project-features">
+            <div class="feature">✓ Chunking & embedding pipeline</div>
+            <div class="feature">✓ Semantic similarity search</div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label">Contact</div>
+      <div class="contact-inner">
+        <h2 class="section-title center">Let's build something together</h2>
+        <p class="section-sub center">Open to backend / full-stack roles, freelance projects, and interesting
+          engineering conversations.</p>
+        <div class="contact-cards">
+
+          <a href="mailto:pujanbose@gmail.com" class="contact-card" id="contact-email">
+            <div class="contact-icon-wrap contact-icon-email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22">
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="M2 7l10 7 10-7" />
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">pujanbose@gmail.com</span>
+            </div>
+            <span class="contact-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/isnowzan" target="_blank" class="contact-card" id="contact-github">
+            <div class="contact-icon-wrap contact-icon-github">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                <path
+                  d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">GitHub</span>
+              <span class="contact-value">@isnowzan</span>
+            </div>
+            <span class="contact-arrow">↗</span>
+          </a>
+
+          <a href="https://linkedin.com/in/pujan-bose-973104192" target="_blank" class="contact-card"
+            id="contact-linkedin">
+            <div class="contact-icon-wrap contact-icon-linkedin">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">LinkedIn</span>
+              <span class="contact-value">Pujan Bose</span>
+            </div>
+            <span class="contact-arrow">↗</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-text">Built with vanilla HTML/CSS/JS · <span class="mono">No frameworks were harmed.</span></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
