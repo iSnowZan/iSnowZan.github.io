@@ -12,11 +12,19 @@ window.addEventListener('resize', resizeCanvas);
 let mouseX = -1000, mouseY = -1000;
 document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
+function isLightTheme() {
+  const t = localStorage.getItem('portfolio-theme') || 'dark';
+  if (t === 'light') return true;
+  if (t === 'dark')  return false;
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
 function drawGrid() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const spacing = 50;
   const cols = Math.ceil(canvas.width  / spacing) + 1;
   const rows = Math.ceil(canvas.height / spacing) + 1;
+  const light = isLightTheme();
 
   for (let c = 0; c < cols; c++) {
     for (let r = 0; r < rows; r++) {
@@ -24,8 +32,14 @@ function drawGrid() {
       const y = r * spacing;
       const dist = Math.hypot(x - mouseX, y - mouseY);
       const maxDist = 200;
-      const alpha = dist < maxDist ? 0.08 + 0.25 * (1 - dist / maxDist) : 0.04;
-      ctx.fillStyle = `rgba(0,212,170,${alpha})`;
+      if (light) {
+        // Darker, more opaque dots for contrast on light background
+        const alpha = dist < maxDist ? 0.22 + 0.45 * (1 - dist / maxDist) : 0.09;
+        ctx.fillStyle = `rgba(0,130,100,${alpha})`;
+      } else {
+        const alpha = dist < maxDist ? 0.08 + 0.25 * (1 - dist / maxDist) : 0.04;
+        ctx.fillStyle = `rgba(0,212,170,${alpha})`;
+      }
       ctx.fillRect(x - 1, y - 1, 2, 2);
     }
   }
@@ -121,3 +135,82 @@ document.addEventListener('click', e => {
     popup.classList.remove('open');
   }
 });
+
+/* ─── Theme toggle ─── */
+const THEME_KEY  = 'portfolio-theme';
+const htmlEl     = document.documentElement;
+const themeOpts  = document.querySelectorAll('.theme-opt');
+
+function applyTheme(theme) {
+  // Set / remove data-theme attribute
+  if (theme === 'system') {
+    htmlEl.removeAttribute('data-theme');
+  } else {
+    htmlEl.setAttribute('data-theme', theme);
+  }
+  // Highlight the active button
+  themeOpts.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.themeVal === theme);
+  });
+}
+
+// Boot: restore saved preference (FOUC already prevented by inline script in <head>)
+const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+applyTheme(savedTheme);
+
+// Button clicks
+themeOpts.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.dataset.themeVal;
+    localStorage.setItem(THEME_KEY, theme);
+    applyTheme(theme);
+  });
+});
+
+// If the user has chosen "System", keep the UI in sync when OS preference changes
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+  if ((localStorage.getItem(THEME_KEY) || 'dark') === 'system') {
+    applyTheme('system'); // re-run so CSS media query picks up the new OS value
+  }
+});
+
+/* ─── Custom cursor (fine-pointer / non-touch only) ─── */
+if (window.matchMedia('(pointer: fine)').matches) {
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+
+  // Ring lerp position (starts off-screen to avoid flash)
+  let ringX = -200, ringY = -200;
+
+  // Move dot instantly on every mouse move (reuse global mouseX/mouseY for ring target)
+  document.addEventListener('mousemove', e => {
+    dot.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+    dot.classList.remove('cursor-hidden');
+    ring.classList.remove('cursor-hidden');
+  });
+
+  // Ring follows with smooth lerp (~15% per frame = ~9 frames lag at 60 fps)
+  (function animateRing() {
+    ringX += (mouseX - ringX) * 0.13;
+    ringY += (mouseY - ringY) * 0.13;
+    ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
+    requestAnimationFrame(animateRing);
+  })();
+
+  // Hover state on interactive elements
+  const interactables = document.querySelectorAll(
+    'a, button, .project-card, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo'
+  );
+  interactables.forEach(el => {
+    el.addEventListener('mouseenter', () => { dot.classList.add('cursor-hover');  ring.classList.add('cursor-hover'); });
+    el.addEventListener('mouseleave', () => { dot.classList.remove('cursor-hover'); ring.classList.remove('cursor-hover'); });
+  });
+
+  // Click feedback
+  document.addEventListener('mousedown', () => ring.classList.add('cursor-click'));
+  document.addEventListener('mouseup',   () => ring.classList.remove('cursor-click'));
+
+  // Hide when mouse leaves viewport
+  document.addEventListener('mouseleave', () => { dot.classList.add('cursor-hidden');  ring.classList.add('cursor-hidden'); });
+  document.addEventListener('mouseenter', () => { dot.classList.remove('cursor-hidden'); ring.classList.remove('cursor-hidden'); });
+}

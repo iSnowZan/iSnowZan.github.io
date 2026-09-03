@@ -12,9 +12,15 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Apply saved theme before first paint to prevent flash -->
+  <script>(function(){var t=localStorage.getItem('portfolio-theme')||'dark';if(t!=='system')document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 
 <body>
+
+  <!-- Custom cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
   <!-- NAV -->
   <nav id="navbar">
@@ -26,6 +32,11 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Choose color theme">
+        <button class="theme-opt" data-theme-val="dark"   id="theme-opt-dark"   title="Dark theme">🌙</button>
+        <button class="theme-opt" data-theme-val="system" id="theme-opt-system" title="System default">💻</button>
+        <button class="theme-opt" data-theme-val="light"  id="theme-opt-light"  title="Light theme">☀️</button>
+      </div>
       <div class="hire-wrap">
         <button class="nav-cta" id="hire-btn" onclick="toggleHirePopup(event)">✉ Hire Me</button>
         <div class="hire-popup" id="hire-popup">

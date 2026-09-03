@@ -20,7 +20,7 @@
   --glow:      0 0 40px rgba(0,212,170,0.15);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
 html { scroll-behavior: smooth; }
 
 body {
@@ -195,6 +195,32 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   text-underline-offset: 3px;
 }
 .hire-mailto-link:hover { color: #a5b4fc; }
+
+/* ────────────────────────────────────────────
+   THEME SWITCHER
+──────────────────────────────────────────── */
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+.theme-opt {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: .85rem;
+  padding: 5px 9px;
+  border-radius: 7px;
+  line-height: 1;
+  transition: background .2s, transform .15s;
+  user-select: none;
+}
+.theme-opt:hover    { background: rgba(255,255,255,.1); transform: scale(1.12); }
+.theme-opt.active   { background: var(--primary); box-shadow: 0 2px 8px rgba(0,212,170,.3); }
 
 
 /* ────────────────────────────────────────────
@@ -672,6 +698,64 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ────────────────────────────────────────────
+   CUSTOM CURSOR
+──────────────────────────────────────────── */
+#cursor-dot,
+#cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* Inner dot — instant tracking */
+#cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
+  transition: width .18s ease, height .18s ease, opacity .3s;
+}
+
+/* Outer ring — lerp-trails behind */
+#cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--primary);
+  opacity: .55;
+  transition:
+    width .25s ease,
+    height .25s ease,
+    background .25s,
+    border-color .25s,
+    opacity .3s;
+}
+
+/* Hover: expands ring, fills faintly */
+#cursor-dot.cursor-hover  { width: 10px; height: 10px; }
+#cursor-ring.cursor-hover {
+  width: 52px;
+  height: 52px;
+  background: rgba(0,212,170,.08);
+  opacity: .85;
+}
+
+/* Click: ring snaps smaller */
+#cursor-ring.cursor-click  { width: 22px; height: 22px; opacity: 1; }
+
+/* Hidden (mouse left window) */
+#cursor-dot.cursor-hidden,
+#cursor-ring.cursor-hidden { opacity: 0 !important; }
+
+/* Light theme ring fill */
+html[data-theme="light"] #cursor-ring.cursor-hover { background: rgba(0,155,124,.1); }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) #cursor-ring.cursor-hover { background: rgba(0,155,124,.1); }
+}
+
+/* ────────────────────────────────────────────
    RESPONSIVE
 ──────────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -688,4 +772,97 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); }
   .about-stack    { grid-template-columns: 1fr; }
   .skill-categories { grid-template-columns: 1fr; }
   .contact-cards  { gap: 10px; }
+  .theme-switcher { padding: 2px; gap: 1px; }
+  .theme-opt      { padding: 4px 7px; font-size: .78rem; }
+}
+
+
+/* ════════════════════════════════════════════
+   LIGHT THEME
+   Applied via html[data-theme="light"] (explicit)
+   or @media (prefers-color-scheme:light) on html:not([data-theme]) (system)
+═══════════════════════════════════════════ */
+
+/* — Variables — */
+html[data-theme="light"] {
+  --bg:        #f4f6fa;
+  --surface:   #ffffff;
+  --surface2:  #edf0f8;
+  --border:    rgba(0,0,0,0.09);
+  --primary:   #009b7c;
+  --primary-d: #007a61;
+  --secondary: #5c52cc;
+  --text:      #0d1117;
+  --text-sub:  #4b5563;
+  --text-muted:#8896aa;
+  --glow:      0 0 40px rgba(0,155,124,0.1);
+}
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) {
+    --bg:        #f4f6fa;
+    --surface:   #ffffff;
+    --surface2:  #edf0f8;
+    --border:    rgba(0,0,0,0.09);
+    --primary:   #009b7c;
+    --primary-d: #007a61;
+    --secondary: #5c52cc;
+    --text:      #0d1117;
+    --text-sub:  #4b5563;
+    --text-muted:#8896aa;
+    --glow:      0 0 40px rgba(0,155,124,0.1);
+  }
+}
+
+/* — Navbar scrolled background — */
+html[data-theme="light"] #navbar.scrolled { background: rgba(244,246,250,.92); }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) #navbar.scrolled { background: rgba(244,246,250,.92); }
+}
+
+/* — Hero name gradient (was white→teal, now dark→teal) — */
+html[data-theme="light"] .hero-name {
+  background: linear-gradient(135deg, #0d1117 40%, var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .hero-name {
+    background: linear-gradient(135deg, #0d1117 40%, var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* — Code window — */
+html[data-theme="light"] .code-window     { background: #eef1fb; box-shadow: 0 32px 80px rgba(0,0,0,.1), var(--glow); }
+html[data-theme="light"] .code-titlebar   { background: #e3e8f5; }
+html[data-theme="light"] .kw              { color: #5c52cc; }
+html[data-theme="light"] .fn              { color: #009b7c; }
+html[data-theme="light"] .str             { color: #b45309; }
+html[data-theme="light"] .num             { color: #be185d; }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .code-window   { background: #eef1fb; box-shadow: 0 32px 80px rgba(0,0,0,.1), var(--glow); }
+  html:not([data-theme]) .code-titlebar { background: #e3e8f5; }
+  html:not([data-theme]) .kw            { color: #5c52cc; }
+  html:not([data-theme]) .fn            { color: #009b7c; }
+  html:not([data-theme]) .str           { color: #b45309; }
+  html:not([data-theme]) .num           { color: #be185d; }
+}
+
+/* — Hire popup — */
+html[data-theme="light"] .hire-popup      { background: #fff; border-color: rgba(0,155,124,.25); box-shadow: 0 16px 48px rgba(0,0,0,.1); }
+html[data-theme="light"] .hire-email-row  { background: rgba(0,0,0,.04); }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .hire-popup     { background: #fff; border-color: rgba(0,155,124,.25); box-shadow: 0 16px 48px rgba(0,0,0,.1); }
+  html:not([data-theme]) .hire-email-row { background: rgba(0,0,0,.04); }
+}
+
+/* — Theme switcher adjustments for light bg — */
+html[data-theme="light"] .theme-switcher  { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.12); }
+html[data-theme="light"] .theme-opt:hover { background: rgba(0,0,0,.09); transform: scale(1.12); }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .theme-switcher  { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.12); }
+  html:not([data-theme]) .theme-opt:hover { background: rgba(0,0,0,.09); transform: scale(1.12); }
 }
