@@ -28,8 +28,8 @@
       <a class="nav-logo" href="#hero"><span class="mono">&lt;</span>dev<span class="mono">/&gt;</span></a>
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Choose color theme">
@@ -155,6 +155,42 @@
           </div>
         </div>
       </div>
+
+      <!-- How I Build — embedded sub-section -->
+      <div class="principles-inner">
+        <div class="principles-inner-label mono">How I Build</div>
+        <div class="principles-list">
+
+          <div class="principle-item">
+            <span class="principle-num mono">01</span>
+            <div class="principle-body">
+              <h3 class="principle-title">Requirements before assumptions</h3>
+              <p class="principle-desc">Knowing what the customer actually wants beats building what <em>seems</em> correct.
+                The client's goal steers the architecture — not the other way around.</p>
+            </div>
+          </div>
+
+          <div class="principle-item">
+            <span class="principle-num mono">02</span>
+            <div class="principle-body">
+              <h3 class="principle-title">Design for failure</h3>
+              <p class="principle-desc">Retries, idempotency, and observability aren't afterthoughts.
+                Faults should be <strong>known</strong> before they cause havoc among users.</p>
+            </div>
+          </div>
+
+          <div class="principle-item">
+            <span class="principle-num mono">03</span>
+            <div class="principle-body">
+              <h3 class="principle-title">Keep systems boring</h3>
+              <p class="principle-desc">Simple architecture scales better than unnecessary complexity.
+                Writing code that is easy for anyone to read is a <strong>responsibility</strong>, not an option.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -286,14 +322,6 @@
         <article class="project-card featured">
           <div class="project-top-row">
             <div class="project-badge">⭐ Featured</div>
-            <div class="project-links">
-              <a href="#" class="icon-link" title="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
-                </svg>
-              </a>
-            </div>
           </div>
           <span class="project-icon">💳</span>
           <h3 class="project-title">Payment Processing Engine</h3>
@@ -314,14 +342,6 @@
         <article class="project-card">
           <div class="project-header">
             <span class="project-icon">⚡</span>
-            <div class="project-links">
-              <a href="#" class="icon-link" title="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
-                </svg>
-              </a>
-            </div>
           </div>
           <h3 class="project-title">Distributed Task Queue</h3>
           <p class="project-desc">A horizontally scalable background job system using Go workers, RabbitMQ for task
@@ -339,14 +359,6 @@
         <article class="project-card">
           <div class="project-header">
             <span class="project-icon">🔌</span>
-            <div class="project-links">
-              <a href="#" class="icon-link" title="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
-                </svg>
-              </a>
-            </div>
           </div>
           <h3 class="project-title">Real-time Notification Service</h3>
           <p class="project-desc">WebSocket-based notification hub built on NestJS + Socket.IO with Redis adapter for
@@ -363,14 +375,6 @@
         <article class="project-card">
           <div class="project-header">
             <span class="project-icon">🤖</span>
-            <div class="project-links">
-              <a href="#" class="icon-link" title="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
-                </svg>
-              </a>
-            </div>
           </div>
           <h3 class="project-title">RAG Document Q&A API</h3>
           <p class="project-desc">A Python-based Retrieval-Augmented Generation service that ingests documents, chunks
