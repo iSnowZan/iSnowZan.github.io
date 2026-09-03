@@ -698,6 +698,92 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ────────────────────────────────────────────
+   ENGINEERING PRINCIPLES (embedded in About)
+──────────────────────────────────────────── */
+
+/* Container that holds the "How I Build" label + list, inside the About section */
+.principles-inner {
+  margin-top: 56px;
+  padding: 36px 40px 40px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.principles-inner-label {
+  font-size: .8rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.principles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.principle-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background .25s;
+  position: relative;
+}
+
+/* Subtle left accent line on hover */
+.principle-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.principle-item:hover::before { opacity: 1; }
+
+.principle-num {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  line-height: 1;
+  min-width: 60px;
+  padding-top: 4px;
+  transition: color .3s;
+  letter-spacing: -.03em;
+}
+.principle-item:hover .principle-num { color: var(--primary); }
+
+.principle-body { flex: 1; }
+
+.principle-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.principle-desc {
+  font-size: .95rem;
+  color: var(--text-sub);
+  line-height: 1.75;
+  max-width: 680px;
+}
+
+@media (max-width: 600px) {
+  .principle-item { gap: 20px; }
+  .principle-num  { font-size: 2rem; min-width: 44px; }
+}
+
+/* ────────────────────────────────────────────
    CUSTOM CURSOR
 ──────────────────────────────────────────── */
 #cursor-dot,
@@ -865,4 +951,10 @@ html[data-theme="light"] .theme-opt:hover { background: rgba(0,0,0,.09); transfo
 @media (prefers-color-scheme: light) {
   html:not([data-theme]) .theme-switcher  { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.12); }
   html:not([data-theme]) .theme-opt:hover { background: rgba(0,0,0,.09); transform: scale(1.12); }
+}
+
+/* — GitHub contact icon (near-invisible on light without this) — */
+html[data-theme="light"] .contact-icon-github { background: rgba(0,0,0,.07); color: #1c1c1e; border: 1px solid rgba(0,0,0,.12); }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .contact-icon-github { background: rgba(0,0,0,.07); color: #1c1c1e; border: 1px solid rgba(0,0,0,.12); }
 }
