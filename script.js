@@ -228,3 +228,65 @@ document.querySelectorAll('.skill-cat').forEach(card => {
     card.style.setProperty('--my', '50%');
   });
 });
+
+/* ─── Featured project card: smooth 3D tilt + spotlight sweep ─── */
+const featuredCard = document.querySelector('.project-card.featured');
+if (featuredCard) {
+  let targetRX = 0, targetRY = 0;
+  let currentRX = 0, currentRY = 0;
+  let isHovered = false;
+  let lerpRaf;
+
+  // Capture target angles on mouse move — no DOM writes here
+  featuredCard.addEventListener('mousemove', e => {
+    const rect = featuredCard.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Update spotlight CSS vars (cheap, runs async in compositor)
+    featuredCard.style.setProperty('--mx', `${x}px`);
+    featuredCard.style.setProperty('--my', `${y}px`);
+
+    // Target tilt: max ±5deg
+    targetRX = ((y - rect.height / 2) / (rect.height / 2)) * -5;
+    targetRY = ((x - rect.width  / 2) / (rect.width  / 2)) *  5;
+  });
+
+  featuredCard.addEventListener('mouseenter', () => {
+    isHovered = true;
+    if (!lerpRaf) lerpLoop();
+  });
+
+  featuredCard.addEventListener('mouseleave', () => {
+    isHovered = false;
+    targetRX = 0;
+    targetRY = 0;
+    featuredCard.style.setProperty('--mx', '50%');
+    featuredCard.style.setProperty('--my', '50%');
+  });
+
+  function lerpLoop() {
+    // Smooth lerp factor — higher = snappier, lower = more lag
+    const factor = 0.08;
+    currentRX += (targetRX - currentRX) * factor;
+    currentRY += (targetRY - currentRY) * factor;
+
+    const translateY = isHovered ? -4 : 0;
+    featuredCard.style.transform =
+      `rotateX(${currentRX.toFixed(3)}deg) rotateY(${currentRY.toFixed(3)}deg) translateY(${translateY}px)`;
+
+    // Keep looping until we're settled at rest
+    const atRest = !isHovered &&
+      Math.abs(currentRX) < 0.01 &&
+      Math.abs(currentRY) < 0.01;
+
+    if (atRest) {
+      featuredCard.style.transform = '';
+      lerpRaf = null;
+    } else {
+      lerpRaf = requestAnimationFrame(lerpLoop);
+    }
+  }
+}
+
+
