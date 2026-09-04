@@ -209,18 +209,27 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   gap: 2px;
 }
 .theme-opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: .85rem;
-  padding: 5px 9px;
+  padding: 6px 8px;
   border-radius: 7px;
   line-height: 1;
-  transition: background .2s, transform .15s;
+  transition: background .2s, transform .15s, color .2s;
   user-select: none;
+  color: var(--text-sub);
 }
-.theme-opt:hover    { background: rgba(255,255,255,.1); transform: scale(1.12); }
-.theme-opt.active   { background: var(--primary); box-shadow: 0 2px 8px rgba(0,212,170,.3); }
+.theme-opt svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  transition: stroke .2s;
+}
+.theme-opt:hover    { background: rgba(255,255,255,.1); transform: scale(1.12); color: var(--text); }
+.theme-opt.active   { background: var(--primary); color: #0b0f19; box-shadow: 0 2px 8px rgba(0,212,170,.3); }
 
 
 /* ────────────────────────────────────────────
@@ -435,7 +444,12 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   border-color: rgba(0,212,170,.35);
   transform: translateY(-4px);
 }
-.stack-icon { font-size: 1.5rem; margin-bottom: 10px; }
+.stack-icon {
+  display: flex;
+  color: var(--primary);
+  margin-bottom: 14px;
+}
+.stack-icon svg { width: 26px; height: 26px; }
 .stack-title { font-size: .85rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
 .stack-desc  { font-size: .78rem; color: var(--text-sub); line-height: 1.6; }
 
@@ -451,13 +465,44 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   margin-bottom: 36px;
 }
 .skill-cat {
+  --mx: 50%;
+  --my: 50%;
   background: var(--bg);
+  background-image: radial-gradient(circle 120px at var(--mx) var(--my), rgba(0,212,170,0) 0%, transparent 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
-  transition: border-color .25s;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color .3s ease,
+    box-shadow .35s ease,
+    transform .35s cubic-bezier(.34,1.56,.64,1),
+    opacity .3s ease,
+    filter .3s ease,
+    background-image .2s ease;
 }
-.skill-cat:hover { border-color: rgba(0,212,170,.3); }
+
+/* Dim all sibling cards while the grid is being hovered */
+.skill-categories:hover .skill-cat:not(:hover) {
+  opacity: 0.42;
+  filter: saturate(0.55);
+}
+
+/* Hovered card: lift + glow ring + inner spotlight */
+.skill-cat:hover {
+  transform: translateY(-9px);
+  border-color: var(--primary);
+  box-shadow:
+    0 0 0 1px rgba(0,212,170,.45),
+    0 20px 60px rgba(0,212,170,.18),
+    0 10px 30px rgba(0,0,0,.25);
+  background-image: radial-gradient(circle 150px at var(--mx) var(--my), rgba(0,212,170,.10) 0%, transparent 100%);
+}
+
+/* Brighten the category header label on hover */
+.skill-cat:hover .cat-header { color: var(--text); }
+
 .cat-header {
   font-size: .82rem;
   font-weight: 700;
@@ -469,7 +514,15 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   align-items: center;
   gap: 8px;
 }
-.cat-icon { font-size: 1rem; }
+.cat-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--text-sub);
+  transition: color .3s;
+}
+.cat-icon svg { width: 15px; height: 15px; }
+.skill-cat:hover .cat-icon { color: var(--text); }
 .skill-pills { display: flex; flex-wrap: wrap; gap: 7px; }
 
 .skill-pill {
@@ -550,6 +603,9 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   justify-content: space-between;
 }
 .project-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: .7rem;
   font-weight: 700;
   font-family: var(--mono);
@@ -566,7 +622,12 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   align-items: center;
   justify-content: space-between;
 }
-.project-icon { font-size: 2rem; }
+.project-icon {
+  display: flex;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+.project-icon svg { width: 34px; height: 34px; }
 .icon-link {
   color: var(--text-muted);
   width: 36px; height: 36px;
