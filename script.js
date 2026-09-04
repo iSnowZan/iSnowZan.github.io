@@ -214,3 +214,17 @@ if (window.matchMedia('(pointer: fine)').matches) {
   document.addEventListener('mouseleave', () => { dot.classList.add('cursor-hidden');  ring.classList.add('cursor-hidden'); });
   document.addEventListener('mouseenter', () => { dot.classList.remove('cursor-hidden'); ring.classList.remove('cursor-hidden'); });
 }
+
+/* ─── Skill card: mouse-tracked inner spotlight ─── */
+document.querySelectorAll('.skill-cat').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${((e.clientX - r.left) / r.width  * 100).toFixed(1)}%`);
+    card.style.setProperty('--my', `${((e.clientY - r.top)  / r.height * 100).toFixed(1)}%`);
+  });
+  // Reset to centre when cursor leaves so the gradient fades cleanly
+  card.addEventListener('mouseleave', () => {
+    card.style.setProperty('--mx', '50%');
+    card.style.setProperty('--my', '50%');
+  });
+});
