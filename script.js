@@ -289,4 +289,48 @@ if (featuredCard) {
   }
 }
 
+/* ─── Hamburger / Mobile Menu ─── */
+(function () {
+  const btn    = document.getElementById('hamburger-btn');
+  const menu   = document.getElementById('mobile-menu');
+  const links  = menu ? menu.querySelectorAll('.mobile-nav-link') : [];
 
+  function openMenu() {
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden'; // prevent scroll behind drawer
+  }
+
+  function closeMenu() {
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      btn.classList.contains('open') ? closeMenu() : openMenu();
+    });
+
+    // Close when any nav link is clicked
+    links.forEach(link => link.addEventListener('click', closeMenu));
+
+    // Close when clicking outside the menu / navbar area
+    document.addEventListener('click', e => {
+      if (menu.classList.contains('open') &&
+          !menu.contains(e.target) &&
+          !btn.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // Close on resize back to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 600) closeMenu();
+    });
+  }
+})();
