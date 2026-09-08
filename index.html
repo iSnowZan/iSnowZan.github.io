@@ -23,8 +23,8 @@
 <body>
 
   <!-- Custom cursor -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+  <div id="cursor-dot" class="cursor-hidden"></div>
+  <div id="cursor-ring" class="cursor-hidden"></div>
 
   <!-- NAV -->
   <nav id="navbar">
@@ -32,8 +32,9 @@
       <a class="nav-logo" href="#hero"><span class="mono">&lt;</span>dev<span class="mono">/&gt;</span></a>
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Choose color theme">
@@ -42,7 +43,8 @@
         <button class="theme-opt" data-theme-val="light"  id="theme-opt-light"  title="Light theme" aria-label="Light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
       </div>
       <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+        <svg class="hamburger-icon menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+        <svg class="hamburger-icon close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
       <div class="hire-wrap">
         <button class="nav-cta" id="hire-btn" onclick="toggleHirePopup(event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg> Hire Me</button>
@@ -62,10 +64,11 @@
   <!-- MOBILE MENU DRAWER -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul class="mobile-nav-links">
-      <li><a href="#about"    class="mobile-nav-link">About</a></li>
-      <li><a href="#projects" class="mobile-nav-link">Projects</a></li>
-      <li><a href="#skills"   class="mobile-nav-link">Skills</a></li>
-      <li><a href="#contact"  class="mobile-nav-link">Contact</a></li>
+      <li><a href="#about"       class="mobile-nav-link">About</a></li>
+      <li><a href="#experience"  class="mobile-nav-link">Experience</a></li>
+      <li><a href="#skills"      class="mobile-nav-link">Skills</a></li>
+      <li><a href="#projects"    class="mobile-nav-link">Projects</a></li>
+      <li><a href="#contact"     class="mobile-nav-link">Contact</a></li>
     </ul>
   </div>
 
@@ -211,6 +214,134 @@
     </div>
   </section>
 
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title center">Where I've Worked</h2>
+      <p class="section-sub center">A timeline of professional backend engineering, production systems, and technical growth</p>
+
+      <!-- Milestone interactive switcher -->
+      <div class="timeline-nav" role="tablist" aria-label="Career Milestones">
+        <button class="tl-nav-btn active" data-target="exp-nzminds" role="tab" aria-selected="true">
+          <span class="tl-nav-pulse"></span>
+          <span class="tl-nav-org">NZMINDS</span>
+          <span class="tl-nav-time">2024 — Present</span>
+        </button>
+        <button class="tl-nav-btn" data-target="exp-cbnits" role="tab" aria-selected="false">
+          <span class="tl-nav-pulse"></span>
+          <span class="tl-nav-org">CBNITS</span>
+          <span class="tl-nav-time">2022 — 2024</span>
+        </button>
+      </div>
+
+      <div class="timeline">
+        <!-- Interactive progress bar that fills with scroll -->
+        <div class="timeline-track">
+          <div class="timeline-line-bg"></div>
+          <div class="timeline-line-fill" id="tl-line-fill"></div>
+        </div>
+
+        <!-- NZMINDS -->
+        <div class="timeline-item pop-active reached" id="exp-nzminds">
+          <div class="tl-dot active" aria-hidden="true">
+            <span class="tl-dot-inner"></span>
+          </div>
+          <div class="timeline-card">
+            <div class="tl-header">
+              <div class="tl-meta">
+                <h3 class="tl-role">Backend Engineer</h3>
+                <span class="tl-company">NZMINDS</span>
+              </div>
+              <div class="tl-right">
+                <span class="tl-period">Oct 2024 – Present</span>
+                <span class="tl-status"><span class="badge-dot"></span> Active Role</span>
+              </div>
+            </div>
+
+            <div class="tl-content-grid">
+              <div class="tl-block">
+                <div class="tl-block-title mono">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  Systems Built
+                </div>
+                <ul class="tl-clean-list">
+                  <li>REST microservices in <strong>Go</strong> &amp; <strong>Node.js</strong> for auth, workflows, and scheduling engines.</li>
+                  <li>Event-driven <strong>RabbitMQ</strong> pipeline for async invoice generation with automatic broker failover.</li>
+                  <li>Multi-service integrations with <strong>Amazon S3 / SES</strong>, <strong>Twilio</strong>, and <strong>QuickBlox</strong>.</li>
+                </ul>
+              </div>
+
+              <div class="tl-block tl-block-learnings">
+                <div class="tl-block-title mono">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  Key Learnings
+                </div>
+                <ul class="tl-clean-list">
+                  <li>Designing resilient broker patterns with idempotent consumers and graceful degradation.</li>
+                  <li>Multi-tenant <strong>RBAC</strong> schema architecture and query optimization under high concurrency.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tl-tech">
+              <span>Go</span><span>Node.js</span><span>PostgreSQL</span><span>MySQL</span><span>RabbitMQ</span><span>Amazon S3</span><span>Amazon SES</span><span>Twilio</span><span>RBAC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CBNITS -->
+        <div class="timeline-item" id="exp-cbnits">
+          <div class="tl-dot" aria-hidden="true">
+            <span class="tl-dot-inner"></span>
+          </div>
+          <div class="timeline-card">
+            <div class="tl-header">
+              <div class="tl-meta">
+                <h3 class="tl-role">Junior Programmer</h3>
+                <span class="tl-company">CBNITS</span>
+              </div>
+              <div class="tl-right">
+                <span class="tl-period">Jun 2022 – Oct 2024</span>
+                <span class="tl-status-muted mono">2 yrs 5 mos</span>
+              </div>
+            </div>
+
+            <div class="tl-content-grid">
+              <div class="tl-block">
+                <div class="tl-block-title mono">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  Systems Built
+                </div>
+                <ul class="tl-clean-list">
+                  <li>Distributed backend services in <strong>Go</strong> for digital health and telepharmacy platforms.</li>
+                  <li>Led backend launch operations and stabilization for Singapore &amp; Vietnam production releases.</li>
+                  <li>Direct <strong>SAP HANA</strong> billing integrations and automated <strong>Airflow</strong> synchronization pipelines.</li>
+                </ul>
+              </div>
+
+              <div class="tl-block tl-block-learnings">
+                <div class="tl-block-title mono">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  Key Learnings
+                </div>
+                <ul class="tl-clean-list">
+                  <li>Zero-downtime UAT-to-production cutovers and live incident triage under strict SLAs.</li>
+                  <li>Deep observability with <strong>Datadog</strong> APM, distributed tracing, and query profiling.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tl-tech">
+              <span>Go</span><span>PostgreSQL</span><span>SAP HANA</span><span>Datadog</span><span>Airflow</span><span>Azure DevOps</span><span>CI/CD</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- SKILLS -->
   <section id="skills">
     <div class="container">
@@ -238,6 +369,7 @@
             <span class="skill-pill proficient">Express.js</span>
             <span class="skill-pill proficient">NestJS</span>
             <span class="skill-pill expert">REST APIs</span>
+            <span class="skill-pill proficient">GraphQL</span>
             <span class="skill-pill proficient">sqlx</span>
             <span class="skill-pill familiar">Sequelize</span>
           </div>
@@ -249,6 +381,8 @@
             <span class="skill-pill expert">PostgreSQL</span>
             <span class="skill-pill proficient">MySQL</span>
             <span class="skill-pill proficient">Redis</span>
+            <span class="skill-pill proficient">MongoDB</span>
+            <span class="skill-pill proficient">SAP HANA</span>
           </div>
         </div>
 
@@ -261,6 +395,13 @@
             <span class="skill-pill proficient">AWS</span>
             <span class="skill-pill proficient">S3</span>
             <span class="skill-pill expert">Git</span>
+            <span class="skill-pill proficient">Amazon SES</span>
+            <span class="skill-pill proficient">Twilio</span>
+            <span class="skill-pill familiar">QuickBlox</span>
+            <span class="skill-pill proficient">Datadog</span>
+            <span class="skill-pill familiar">Airflow</span>
+            <span class="skill-pill proficient">Azure DevOps</span>
+            <span class="skill-pill proficient">CI/CD</span>
           </div>
         </div>
 
@@ -314,7 +455,10 @@
             <span class="skill-pill proficient">Concurrency</span>
             <span class="skill-pill proficient">Background Jobs</span>
             <span class="skill-pill proficient">Performance Optimization</span>
-            <span class="skill-pill proficient">Security & Prod Debugging</span>
+            <span class="skill-pill proficient">Security &amp; Prod Debugging</span>
+            <span class="skill-pill expert">Event-Driven Architecture</span>
+            <span class="skill-pill proficient">Microservices</span>
+            <span class="skill-pill expert">RBAC</span>
           </div>
         </div>
 
@@ -403,6 +547,40 @@
           <div class="project-features">
             <div class="feature">✓ Chunking & embedding pipeline</div>
             <div class="feature">✓ Semantic similarity search</div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-header">
+            <span class="project-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+            <div class="project-badge professional-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg> Professional</div>
+          </div>
+          <h3 class="project-title">Academic Operations &amp; Billing Platform</h3>
+          <p class="project-desc">Comprehensive institutional education management backend. Engineered scheduling and timetable engines, weighted examination assessment workflows, and an event-driven RabbitMQ pipeline for asynchronous, fault-tolerant invoice generation and notification delivery.</p>
+          <div class="project-stack">
+            <span>Go</span><span>Node.js</span><span>PostgreSQL</span><span>RabbitMQ</span><span>Amazon S3</span><span>Amazon SES</span>
+          </div>
+          <div class="project-features">
+            <div class="feature">✓ Weighted grading &amp; fee automation</div>
+            <div class="feature">✓ Async PDF invoice pipeline</div>
+            <div class="feature">✓ Multi-role RBAC system</div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-header">
+            <span class="project-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></svg></span>
+            <div class="project-badge professional-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg> Professional</div>
+          </div>
+          <h3 class="project-title">Digital Health &amp; Telepharmacy Ecosystem</h3>
+          <p class="project-desc">High-traffic distributed backend services powering regional digital prescription, telepharmacy, and medical distribution. Led regional production launches across Singapore and Vietnam, optimized high-volume PostgreSQL &amp; SAP HANA data layers, and automated direct enterprise billing.</p>
+          <div class="project-stack">
+            <span>Go</span><span>PostgreSQL</span><span>SAP HANA</span><span>Datadog</span><span>Airflow</span><span>Azure DevOps</span>
+          </div>
+          <div class="project-features">
+            <div class="feature">✓ Multi-market UAT-to-production launch</div>
+            <div class="feature">✓ SAP direct invoice processing</div>
+            <div class="feature">✓ Datadog production observability</div>
           </div>
         </article>
 
