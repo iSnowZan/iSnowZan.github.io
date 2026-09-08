@@ -79,7 +79,7 @@ type();
 
 /* ─── Scroll reveal ─── */
 const revealEls = document.querySelectorAll(
-  '#about, #skills, #projects, #contact, .project-card, .skill-cat, .stack-card, .contact-card, .principle-item'
+  '#about, #experience, #skills, #projects, #contact, .project-card, .skill-cat, .stack-card, .contact-card, .principle-item, .timeline-card'
 );
 revealEls.forEach(el => el.classList.add('reveal'));
 
@@ -110,6 +110,68 @@ window.addEventListener('scroll', () => {
     a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--primary)' : '';
   });
 }, { passive: true });
+
+/* ─── Experience Timeline Scroll Progress & Interactive Switcher ─── */
+const expSection = document.getElementById('experience');
+const tlFill = document.getElementById('tl-line-fill');
+const tlItems = document.querySelectorAll('.timeline-item');
+const tlNavBtns = document.querySelectorAll('.tl-nav-btn');
+
+function updateTimelineScroll() {
+  if (!expSection || !tlFill) return;
+  const rect = expSection.getBoundingClientRect();
+  const windowH = window.innerHeight;
+
+  // Progress begins as top of experience enters viewport, completes as bottom passes midpoint
+  const startOffset = windowH * 0.75;
+  const totalHeight = rect.height;
+  const scrolled = startOffset - rect.top;
+  const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
+
+  tlFill.style.height = `${(progress * 100).toFixed(1)}%`;
+
+  // Update reached waypoints, pop-in/pop-out state, and active milestone pill
+  let activeIndex = -1;
+  tlItems.forEach((item, idx) => {
+    const iRect = item.getBoundingClientRect();
+    const itemCenter = iRect.top + iRect.height / 2;
+
+    // Card pops in when entering viewport focal zone and pops out as it scrolls past
+    const isPopped = itemCenter > windowH * 0.16 && itemCenter < windowH * 0.84;
+    item.classList.toggle('pop-active', isPopped);
+    item.classList.toggle('reached', iRect.top < windowH * 0.72);
+
+    // Active milestone tab when card is centered in viewport
+    if (itemCenter > windowH * 0.22 && itemCenter < windowH * 0.75) {
+      activeIndex = idx;
+    }
+  });
+
+  if (activeIndex !== -1) {
+    tlNavBtns.forEach((btn, idx) => {
+      const isActive = idx === activeIndex;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  }
+}
+
+window.addEventListener('scroll', updateTimelineScroll, { passive: true });
+window.addEventListener('resize', updateTimelineScroll);
+updateTimelineScroll();
+
+// Click milestone tab to smoothly glide to that section
+tlNavBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      const yOffset = -90;
+      const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
+});
 
 /* ─── Hire Me popup ─── */
 function toggleHirePopup(e) {
@@ -174,45 +236,98 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', ()
   }
 });
 
-/* ─── Custom cursor (fine-pointer / non-touch only) ─── */
-if (window.matchMedia('(pointer: fine)').matches) {
-  const dot  = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
+/* ─── Custom cursor (fine-pointer / desktop only) ─── */
+const cursorDot  = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
 
-  // Ring lerp position (starts off-screen to avoid flash)
+function isCursorSupported() {
+  return window.matchMedia('(pointer: fine)').matches &&
+         !window.matchMedia('(pointer: coarse)').matches &&
+         window.matchMedia('(hover: hover)').matches &&
+         window.innerWidth > 900;
+}
+
+if (cursorDot && cursorRing) {
+  let active = isCursorSupported();
+
+  function syncCursorVisibility() {
+    active = isCursorSupported();
+    if (!active) {
+      cursorDot.style.display = 'none';
+      cursorRing.style.display = 'none';
+      cursorDot.classList.add('cursor-hidden');
+      cursorRing.classList.add('cursor-hidden');
+    } else {
+      cursorDot.style.display = '';
+      cursorRing.style.display = '';
+    }
+  }
+
+  // Initial check & viewport resize listener
+  syncCursorVisibility();
+  window.addEventListener('resize', syncCursorVisibility, { passive: true });
+
+  // Ring lerp position (starts off-screen to avoid initial flash)
   let ringX = -200, ringY = -200;
 
-  // Move dot instantly on every mouse move (reuse global mouseX/mouseY for ring target)
+  // Move dot instantly on mouse move
   document.addEventListener('mousemove', e => {
-    dot.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
-    dot.classList.remove('cursor-hidden');
-    ring.classList.remove('cursor-hidden');
+    if (!active) return;
+    cursorDot.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+    cursorDot.classList.remove('cursor-hidden');
+    cursorRing.classList.remove('cursor-hidden');
   });
 
   // Ring follows with smooth lerp (~15% per frame = ~9 frames lag at 60 fps)
   (function animateRing() {
-    ringX += (mouseX - ringX) * 0.13;
-    ringY += (mouseY - ringY) * 0.13;
-    ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
+    if (active) {
+      ringX += (mouseX - ringX) * 0.13;
+      ringY += (mouseY - ringY) * 0.13;
+      cursorRing.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
+    }
     requestAnimationFrame(animateRing);
   })();
 
   // Hover state on interactive elements
   const interactables = document.querySelectorAll(
-    'a, button, .project-card, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo'
+    'a, button, .project-card, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo, .timeline-card'
   );
   interactables.forEach(el => {
-    el.addEventListener('mouseenter', () => { dot.classList.add('cursor-hover');  ring.classList.add('cursor-hover'); });
-    el.addEventListener('mouseleave', () => { dot.classList.remove('cursor-hover'); ring.classList.remove('cursor-hover'); });
+    el.addEventListener('mouseenter', () => {
+      if (!active) return;
+      cursorDot.classList.add('cursor-hover');
+      cursorRing.classList.add('cursor-hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      if (!active) return;
+      cursorDot.classList.remove('cursor-hover');
+      cursorRing.classList.remove('cursor-hover');
+    });
   });
 
   // Click feedback
-  document.addEventListener('mousedown', () => ring.classList.add('cursor-click'));
-  document.addEventListener('mouseup',   () => ring.classList.remove('cursor-click'));
+  document.addEventListener('mousedown', () => {
+    if (active) cursorRing.classList.add('cursor-click');
+  });
+  document.addEventListener('mouseup', () => {
+    if (active) cursorRing.classList.remove('cursor-click');
+  });
 
-  // Hide when mouse leaves viewport
-  document.addEventListener('mouseleave', () => { dot.classList.add('cursor-hidden');  ring.classList.add('cursor-hidden'); });
-  document.addEventListener('mouseenter', () => { dot.classList.remove('cursor-hidden'); ring.classList.remove('cursor-hidden'); });
+  // Hide when mouse leaves viewport or window blurs
+  document.addEventListener('mouseleave', () => {
+    cursorDot.classList.add('cursor-hidden');
+    cursorRing.classList.add('cursor-hidden');
+  });
+  document.addEventListener('mouseenter', () => {
+    if (active) {
+      cursorDot.classList.remove('cursor-hidden');
+      cursorRing.classList.remove('cursor-hidden');
+    }
+  });
+  window.addEventListener('blur', () => {
+    cursorDot.classList.add('cursor-hidden');
+    cursorRing.classList.add('cursor-hidden');
+  });
 }
 
 /* ─── Skill card: mouse-tracked inner spotlight ─── */
@@ -330,7 +445,7 @@ if (featuredCard) {
 
     // Close on resize back to desktop
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 600) closeMenu();
+      if (window.innerWidth > 680) closeMenu();
     });
   }
 })();
