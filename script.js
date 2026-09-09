@@ -79,7 +79,7 @@ type();
 
 /* ─── Scroll reveal ─── */
 const revealEls = document.querySelectorAll(
-  '#about, #experience, #skills, #projects, #contact, .project-card, .skill-cat, .stack-card, .contact-card, .principle-item, .timeline-card'
+  '#about, #experience, #skills, #projects, #contact, .skill-cat, .stack-card, .contact-card, .principle-item, .timeline-card'
 );
 revealEls.forEach(el => el.classList.add('reveal'));
 
@@ -290,7 +290,7 @@ if (cursorDot && cursorRing) {
 
   // Hover state on interactive elements
   const interactables = document.querySelectorAll(
-    'a, button, .project-card, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo, .timeline-card'
+    'a, button, .project-card, .deck-card, .deck-btn, .deck-dot, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo, .timeline-card'
   );
   interactables.forEach(el => {
     el.addEventListener('mouseenter', () => {
@@ -344,64 +344,107 @@ document.querySelectorAll('.skill-cat').forEach(card => {
   });
 });
 
-/* ─── Featured project card: smooth 3D tilt + spotlight sweep ─── */
-const featuredCard = document.querySelector('.project-card.featured');
-if (featuredCard) {
-  let targetRX = 0, targetRY = 0;
-  let currentRX = 0, currentRY = 0;
-  let isHovered = false;
-  let lerpRaf;
+/* ─── Scroll-Driven Stacking Cards ─── */
+function initStackingCards() {
+  const container = document.getElementById('stack-container');
+  const cards = Array.from(document.querySelectorAll('.project-card.stack-card'));
+  const currentNumEl = document.getElementById('stack-current');
+  const navBtns = Array.from(document.querySelectorAll('.stack-nav-btn'));
 
-  // Capture target angles on mouse move — no DOM writes here
-  featuredCard.addEventListener('mousemove', e => {
-    const rect = featuredCard.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  if (!container || cards.length === 0) return;
 
-    // Update spotlight CSS vars (cheap, runs async in compositor)
-    featuredCard.style.setProperty('--mx', `${x}px`);
-    featuredCard.style.setProperty('--my', `${y}px`);
+  function updateStack() {
+    let activeIdx = 0;
 
-    // Target tilt: max ±5deg
-    targetRX = ((y - rect.height / 2) / (rect.height / 2)) * -5;
-    targetRY = ((x - rect.width  / 2) / (rect.width  / 2)) *  5;
+    cards.forEach((card, i) => {
+      const rect = card.getBoundingClientRect();
+      const style = window.getComputedStyle(card);
+      const stickyTop = parseFloat(style.top) || (125 + i * 18);
+
+      // Card is considered active/pinned when its top reaches within 8px of its sticky top
+      if (rect.top <= stickyTop + 8) {
+        activeIdx = i;
+      }
+    });
+
+    cards.forEach((card, i) => {
+      const diff = activeIdx - i;
+      if (diff > 0) {
+        card.classList.add('is-covered');
+        const scale = Math.max(0.92, 1 - diff * 0.025);
+        const brightness = Math.max(0.72, 1 - diff * 0.07);
+        card.style.transform = `scale(${scale})`;
+        card.style.filter = `brightness(${brightness})`;
+      } else {
+        card.classList.remove('is-covered');
+        card.style.transform = '';
+        card.style.filter = '';
+      }
+    });
+
+    if (currentNumEl) {
+      currentNumEl.textContent = String(activeIdx + 1);
+    }
+
+    navBtns.forEach((btn, i) => {
+      btn.classList.toggle('active', i === activeIdx);
+      btn.setAttribute('aria-selected', i === activeIdx ? 'true' : 'false');
+    });
+  }
+
+  // Click to smoothly jump directly to any project card
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const idx = parseInt(btn.getAttribute('data-index'), 10);
+      if (isNaN(idx) || !cards[idx]) return;
+
+      const targetCard = cards[idx];
+      const style = window.getComputedStyle(targetCard);
+      const stickyTop = parseFloat(style.top) || (125 + idx * 18);
+      const cardDocTop = targetCard.getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+        top: Math.round(cardDocTop - stickyTop + 2),
+        behavior: 'smooth'
+      });
+    });
   });
 
-  featuredCard.addEventListener('mouseenter', () => {
-    isHovered = true;
-    if (!lerpRaf) lerpLoop();
-  });
-
-  featuredCard.addEventListener('mouseleave', () => {
-    isHovered = false;
-    targetRX = 0;
-    targetRY = 0;
-    featuredCard.style.setProperty('--mx', '50%');
-    featuredCard.style.setProperty('--my', '50%');
-  });
-
-  function lerpLoop() {
-    // Smooth lerp factor — higher = snappier, lower = more lag
-    const factor = 0.08;
-    currentRX += (targetRX - currentRX) * factor;
-    currentRY += (targetRY - currentRY) * factor;
-
-    const translateY = isHovered ? -4 : 0;
-    featuredCard.style.transform =
-      `rotateX(${currentRX.toFixed(3)}deg) rotateY(${currentRY.toFixed(3)}deg) translateY(${translateY}px)`;
-
-    // Keep looping until we're settled at rest
-    const atRest = !isHovered &&
-      Math.abs(currentRX) < 0.01 &&
-      Math.abs(currentRY) < 0.01;
-
-    if (atRest) {
-      featuredCard.style.transform = '';
-      lerpRaf = null;
-    } else {
-      lerpRaf = requestAnimationFrame(lerpLoop);
+  let ticking = false;
+  function requestUpdate() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateStack();
+        ticking = false;
+      });
+      ticking = true;
     }
   }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+
+  // Spotlight mouse effect on cards
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mx', `${x}px`);
+      card.style.setProperty('--my', `${y}px`);
+    });
+  });
+
+  // Initial calculation
+  updateStack();
+}
+
+// Initialize stacking cards
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initStackingCards);
+} else {
+  initStackingCards();
 }
 
 /* ─── Hamburger / Mobile Menu ─── */
