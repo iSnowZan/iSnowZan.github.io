@@ -749,15 +749,14 @@ html[data-theme=light] .skill-icon.icon-invert {
   flex-direction: column;
   gap: 16px;
   box-shadow:
-    0 -4px 18px rgba(0, 0, 0, 0.2),
+    0 -2px 10px rgba(0, 0, 0, 0.15),
     0 16px 45px rgba(0, 0, 0, 0.45);
   transition:
-    transform .4s cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter .35s ease,
+    transform .35s cubic-bezier(0.2, 0.8, 0.2, 1),
     border-color .3s ease,
     box-shadow .35s ease;
   transform-origin: center top;
-  will-change: transform, filter;
+  will-change: transform;
   z-index: calc(var(--card-idx, 0) + 1);
 }
 
@@ -1743,11 +1742,18 @@ html[data-theme="light"] .tl-status-muted { background: rgba(0, 0, 0, 0.04); bor
 
 /* — Stacking cards on light theme — */
 html[data-theme="light"] .project-card.stack-card {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 -3px 12px rgba(0, 0, 0, 0.04),
+    0 12px 34px rgba(0, 0, 0, 0.07),
+    0 1px 3px rgba(0, 0, 0, 0.03);
   background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
 }
 html[data-theme="light"] .project-card.stack-card:hover {
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09), 0 0 24px rgba(0, 155, 124, 0.12);
+  box-shadow:
+    0 -3px 12px rgba(0, 0, 0, 0.04),
+    0 18px 45px rgba(0, 0, 0, 0.11),
+    0 0 24px rgba(0, 155, 124, 0.12);
 }
 html[data-theme="light"] .stack-sticky-bar {
   background: rgba(244, 246, 250, 0.88);
@@ -1770,11 +1776,18 @@ html[data-theme="light"] .stack-nav-btn.active {
 
 @media (prefers-color-scheme: light) {
   html:not([data-theme]) .project-card.stack-card {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 -3px 12px rgba(0, 0, 0, 0.04),
+      0 12px 34px rgba(0, 0, 0, 0.07),
+      0 1px 3px rgba(0, 0, 0, 0.03);
     background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
   }
   html:not([data-theme]) .project-card.stack-card:hover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09), 0 0 24px rgba(0, 155, 124, 0.12);
+    box-shadow:
+      0 -3px 12px rgba(0, 0, 0, 0.04),
+      0 18px 45px rgba(0, 0, 0, 0.11),
+      0 0 24px rgba(0, 155, 124, 0.12);
   }
   html:not([data-theme]) .stack-sticky-bar {
     background: rgba(244, 246, 250, 0.88);

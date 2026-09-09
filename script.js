@@ -371,15 +371,13 @@ function initStackingCards() {
       const diff = activeIdx - i;
       if (diff > 0) {
         card.classList.add('is-covered');
-        const scale = Math.max(0.92, 1 - diff * 0.025);
-        const brightness = Math.max(0.72, 1 - diff * 0.07);
+        const scale = Math.max(0.93, 1 - diff * 0.016);
         card.style.transform = `scale(${scale})`;
-        card.style.filter = `brightness(${brightness})`;
       } else {
         card.classList.remove('is-covered');
         card.style.transform = '';
-        card.style.filter = '';
       }
+      card.style.filter = '';
     });
 
     if (currentNumEl) {
