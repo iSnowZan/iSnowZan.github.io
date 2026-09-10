@@ -290,7 +290,7 @@ if (cursorDot && cursorRing) {
 
   // Hover state on interactive elements
   const interactables = document.querySelectorAll(
-    'a, button, .project-card, .deck-card, .deck-btn, .deck-dot, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo, .timeline-card'
+    'a, button, .chip, .project-card, .deck-card, .deck-btn, .deck-dot, .stack-card, .skill-pill, .contact-card, .theme-opt, .nav-cta, .nav-logo, .timeline-card'
   );
   interactables.forEach(el => {
     el.addEventListener('mouseenter', () => {
@@ -343,6 +343,37 @@ document.querySelectorAll('.skill-cat').forEach(card => {
     card.style.setProperty('--my', '50%');
   });
 });
+
+/* ─── Skills Proficiency Filter ─── */
+function initSkillsFilter() {
+  const btns = Array.from(document.querySelectorAll('.skills-filter-btn'));
+  const pills = Array.from(document.querySelectorAll('.skill-pill'));
+  if (btns.length === 0 || pills.length === 0) return;
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      btns.forEach(b => {
+        const isActive = b === btn;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
+      pills.forEach(pill => {
+        if (filter === 'all' || pill.classList.contains(filter)) {
+          pill.classList.remove('skills-filtered-out');
+        } else {
+          pill.classList.add('skills-filtered-out');
+        }
+      });
+    });
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSkillsFilter);
+} else {
+  initSkillsFilter();
+}
 
 /* ─── Scroll-Driven Stacking Cards ─── */
 function initStackingCards() {
