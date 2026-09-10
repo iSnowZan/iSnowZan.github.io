@@ -1584,6 +1584,7 @@ html[data-theme="light"] #cursor-ring.cursor-hover { background: rgba(0,155,124,
   .contact-cards { gap: 10px; }
 }
 @media (max-width: 680px) {
+  #navbar         { padding: 10px 0; }
   .nav-links      { display: none; }
   .hamburger      { display: flex; }
   .mobile-menu    { display: block; }
@@ -1591,15 +1592,36 @@ html[data-theme="light"] #cursor-ring.cursor-hover { background: rgba(0,155,124,
   .about-stack    { grid-template-columns: 1fr; }
   .skill-categories { grid-template-columns: 1fr; gap: 14px; }
   .skill-cat:nth-child(n) { grid-column: span 1; }
-  .stack-sticky-bar { top: 68px; padding: 8px 14px; margin-bottom: 24px; }
-  .stack-hint { display: none; }
-  .project-card.stack-card {
-    top: calc(112px + var(--card-idx, 0) * 12px);
-    padding: 24px 20px;
-    border-radius: 16px;
-    margin-bottom: 50px;
-    min-height: unset;
+  .stack-sticky-bar {
+    top: 58px;
+    padding: 7px 12px;
+    margin-bottom: 20px;
+    gap: 8px;
   }
+  .stack-counter-pill {
+    font-size: .8rem;
+    gap: 6px;
+  }
+  .stack-nav {
+    gap: 4px;
+  }
+  .stack-nav-btn {
+    width: 25px;
+    height: 25px;
+    font-size: .68rem;
+  }
+  .project-card.stack-card {
+    top: calc(96px + var(--card-idx, 0) * 4px);
+    padding: 20px 16px;
+    border-radius: 16px;
+    margin-bottom: 36px;
+    min-height: unset;
+    gap: 12px;
+  }
+  .project-card.stack-card .project-title { font-size: 1.15rem; }
+  .project-card.stack-card .project-desc  { font-size: .86rem; line-height: 1.55; }
+  .project-card.stack-card .project-stack span { font-size: .7rem; padding: 3px 8px; }
+  .project-card.stack-card .feature { font-size: .78rem; }
   .contact-cards  { gap: 10px; }
   .theme-switcher { padding: 2px; gap: 1px; }
   .theme-opt      { padding: 4px 6px; font-size: .75rem; }
@@ -1611,6 +1633,9 @@ html[data-theme="light"] #cursor-ring.cursor-hover { background: rgba(0,155,124,
   .theme-opt      { padding: 4px 5px; }
   .nav-cta        { padding: 6px 10px; font-size: .78rem; gap: 4px; }
   .nav-cta svg    { display: none; }
+  .stack-sticky-bar { padding: 6px 10px; }
+  .stack-nav-btn  { width: 23px; height: 23px; font-size: .65rem; }
+  .stack-label    { display: none; }
 }
 
 /* Light theme drawer & hamburger */
