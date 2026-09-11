@@ -421,6 +421,35 @@ function initStackingCards() {
     });
   }
 
+  // Card positions: snapshot after full page load so images/fonts have settled layout.
+  // Re-snapshot on resize to handle viewport changes.
+  let cardDocTops = [];
+
+  function snapshotCardPositions() {
+    // Temporarily scroll to top so sticky cards are in their natural positions,
+    // then snapshot, then restore scroll position.
+    const savedScroll = window.scrollY;
+    if (savedScroll !== 0) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    cardDocTops = cards.map(card => card.getBoundingClientRect().top + window.scrollY);
+    if (savedScroll !== 0) {
+      window.scrollTo({ top: savedScroll, behavior: 'instant' });
+    }
+  }
+
+  // Take snapshot once all resources (images, fonts) are loaded
+  if (document.readyState === 'complete') {
+    snapshotCardPositions();
+  } else {
+    window.addEventListener('load', snapshotCardPositions, { once: true });
+  }
+  // Re-snapshot on resize (card heights can shift on mobile reflow)
+  window.addEventListener('resize', () => {
+    clearTimeout(window._resizeSnapTimer);
+    window._resizeSnapTimer = setTimeout(snapshotCardPositions, 200);
+  });
+
   // Click to smoothly jump directly to any project card
   navBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -428,13 +457,18 @@ function initStackingCards() {
       const idx = parseInt(btn.getAttribute('data-index'), 10);
       if (isNaN(idx) || !cards[idx]) return;
 
-      const targetCard = cards[idx];
-      const style = window.getComputedStyle(targetCard);
-      const stickyTop = parseFloat(style.top) || (125 + idx * 18);
-      const cardDocTop = targetCard.getBoundingClientRect().top + window.scrollY;
+      // Ensure we have fresh positions (lazy fallback if load event hasn't fired yet)
+      if (cardDocTops.length === 0) snapshotCardPositions();
+
+      const stickyTop = 125 + idx * 18;
+      const rawTarget = cardDocTops[idx] - stickyTop + 4;
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const targetScroll = Math.max(0, Math.min(Math.round(rawTarget), maxScroll));
+
 
       window.scrollTo({
-        top: Math.round(cardDocTop - stickyTop + 2),
+        top: targetScroll,
         behavior: 'smooth'
       });
     });
