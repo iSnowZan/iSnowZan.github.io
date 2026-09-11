@@ -80,6 +80,7 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
 }
 #navbar.scrolled {
   background: rgba(8,8,16,.8);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
 }
@@ -249,6 +250,7 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   border-radius: 7px;
   line-height: 1;
   transition: background .2s, transform .15s, color .2s;
+  -webkit-user-select: none;
   user-select: none;
   color: var(--text-sub);
 }
@@ -364,6 +366,7 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   display: inline-flex;
   align-items: center;
   transition: all .2s ease;
+  -webkit-user-select: none;
   user-select: none;
 }
 .chip:hover {
@@ -519,6 +522,7 @@ em { color: var(--secondary); font-style: normal; font-weight: 700; }
   border-radius: 999px;
   cursor: pointer;
   transition: all .2s ease;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -722,8 +726,8 @@ html[data-theme=light] .skill-icon.icon-invert {
   margin-bottom: 30px;
   padding: 10px 20px;
   background: rgba(8, 8, 16, 0.78);
-  backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: 100px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
@@ -831,6 +835,13 @@ html[data-theme=light] .skill-icon.icon-invert {
   will-change: transform;
   z-index: calc(var(--card-idx, 0) + 1);
 }
+
+.project-card.stack-card:nth-child(1) { --card-idx: 0; }
+.project-card.stack-card:nth-child(2) { --card-idx: 1; }
+.project-card.stack-card:nth-child(3) { --card-idx: 2; }
+.project-card.stack-card:nth-child(4) { --card-idx: 3; }
+.project-card.stack-card:nth-child(5) { --card-idx: 4; }
+.project-card.stack-card:nth-child(6) { --card-idx: 5; }
 
 .project-card.stack-card:last-child {
   margin-bottom: 20px;
@@ -1606,6 +1617,7 @@ html[data-theme="light"] #cursor-ring.cursor-hover { background: rgba(0,155,124,
   z-index: 99;
   padding-top: 62px;
   background: rgba(8,8,16,.97);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
   transform: translateY(-100%);
